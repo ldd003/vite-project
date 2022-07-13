@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 // // useStore 可以是 useUser、useCart 之类的任何东西
 // // 第一个参数是应用程序中 store 的唯一 id
@@ -7,22 +7,22 @@ import { defineStore } from "pinia";
 // })
 
 export const useUser = defineStore({
-  id: "user",
+  id: 'user',
   state: () => ({
-    name: "lucky",
-    age: 20,
+    name: 'lucky',
+    age: 20
   }),
   getters: {
     nameLowerCase(state) {
-      return state.name.toLocaleLowerCase();
+      return state.name.toLocaleLowerCase()
     },
     nameUpperCase() {
-      return this.name.toUpperCase();
-    },
+      return this.name.toUpperCase()
+    }
   },
   actions: {
     updateNum(p) {
-      this.age += p;
-    },
-  },
-});
+      this.age += p
+    }
+  }
+})

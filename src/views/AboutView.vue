@@ -9,17 +9,17 @@
 </template>
 
 <script setup>
-import { storeToRefs } from "pinia";
-import { useUser } from "../store/storeA";
-const store = useUser();
+import { storeToRefs } from 'pinia'
+import { useUser } from '../store/storeA'
+const store = useUser()
 
-let { name, age, nameLowerCase, nameUpperCase } = storeToRefs(store);
+let { name, age, nameLowerCase, nameUpperCase } = storeToRefs(store)
 
 const changeName = () => {
-  name.value += "1";
-};
+  name.value += '1'
+}
 
 const changeAge = () => {
-  store.updateNum(10);
-};
+  store.updateNum(10)
+}
 </script>
