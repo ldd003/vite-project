@@ -6,6 +6,18 @@
   <router-view />
 </template>
 
+<script setup>
+let s = 'a'
+
+let gg = 'bfdg'
+
+let z = 90
+
+if (s == gg) {
+  console.log(78)
+}
+</script>
+
 <style lang="less">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
