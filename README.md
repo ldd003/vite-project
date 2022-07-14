@@ -63,3 +63,9 @@
   - 添加 pre-commit 钩子
     `npx husky add .husky/pre-commit`
     再在 pre-commit 中加入`npx --no-install lint-staged`命令
+
+5. 引入 ant-design-vue
+   `npm i ant-design-vue`
+   - 全局注册方式
+     ` import Antd from 'ant-design-vue' import 'ant-design-vue/dist/antd.css'`
+   * 按需加载方式
