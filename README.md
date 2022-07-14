@@ -61,3 +61,5 @@
   - 生成.husky 文件。prepare 脚本，在安装依赖如`npm i`之后，自动执行
     `{ "script":{ "prepare": "husky install" } }`
   - 添加 pre-commit 钩子
+    `npx husky add .husky/pre-commit`
+    再在 pre-commit 中加入`npx --no-install lint-staged`命令
