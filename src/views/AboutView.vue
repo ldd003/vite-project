@@ -23,3 +23,12 @@ const changeAge = () => {
   store.updateNum(10)
 }
 </script>
+
+<style lang="less" scoped>
+@p: purple;
+.about {
+  p {
+    color: @p;
+  }
+}
+</style>

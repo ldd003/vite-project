@@ -11,8 +11,6 @@ let s = 'a'
 
 let gg = 'bfdg'
 
-let z = 90
-
 if (s == gg) {
   console.log(78)
 }
