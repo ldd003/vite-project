@@ -1,0 +1,14 @@
+{
+  //安装了eslint插件,才有红色波浪线提示，以及可以保存时就自动fix
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+  //安装了prettier插件，可以保存时就自动format
+  // "editor.formatOnSave": true, // 开启自动保存
+  // "editor.defaultFormatter": "esbenp.prettier-vscode" // 默认格式化工具选择prettier
+
+  //eslint和prettier，因为eslint也会有对代码‘风格’的校验，如果2者要求不一致，就会不兼容，冲突
+  //可通过eslint-config-prettier+eslint-plugin-prettier解决。让eslint专注语法和问题校验，prettier全权负责代码风格
+  //eslint-config-prettier：关闭eslint中与prettier相互冲突的规则
+  //eslint-plugin-prettier：赋予eslint用prettier格式化代码的能力
+}
