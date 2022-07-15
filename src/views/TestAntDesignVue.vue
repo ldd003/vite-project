@@ -1,15 +1,9 @@
 <template>
   <div class="test-ant-design-vue">
     <h1>Test-ant-design-vue</h1>
-
-    <Button>hello</Button>
-    <a-button>world</a-button>
-    <ComponentA />
   </div>
 </template>
 
-<script setup>
-import { Button } from 'ant-design-vue'
-</script>
+<script setup></script>
 
 <style lang="less" scoped></style>
