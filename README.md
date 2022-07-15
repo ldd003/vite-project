@@ -66,6 +66,13 @@
 
 5. 引入 ant-design-vue
    `npm i ant-design-vue`
+
    - 全局注册方式
      ` import Antd from 'ant-design-vue' import 'ant-design-vue/dist/antd.css'`
+
    * 按需加载方式
+     - 安装自动引入插件 unplugin-vue-components
+       `npm i unplugin-vue-components -D`
+     - 在 vite.config.js 中配置
+       `import Components from 'unplugin-vue-components/vite' import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'`
+       `Components({ dirs: ['src/components'], //公共组件自动引入 resolvers: [AntDesignVueResolver()] //省去UI库的大量import语句 })`

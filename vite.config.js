@@ -1,7 +1,10 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
+//
 import AutoImport from 'unplugin-auto-import/vite'
+
+//自动引入插件
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
@@ -15,8 +18,8 @@ export default defineConfig({
       imports: ['vue']
     }),
     Components({
-      dirs: ['src/components'],
-      resolvers: [AntDesignVueResolver()]
+      dirs: ['src/components'], //公共组件自动引入
+      resolvers: [AntDesignVueResolver()] //省去UI库的大量import语句
     })
   ],
   resolve: {

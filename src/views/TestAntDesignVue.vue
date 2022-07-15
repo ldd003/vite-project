@@ -4,6 +4,7 @@
 
     <Button>hello</Button>
     <a-button>world</a-button>
+    <ComponentA />
   </div>
 </template>
 
