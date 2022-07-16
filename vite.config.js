@@ -25,12 +25,27 @@ export default defineConfig({
     }),
     Components({
       dirs: ['src/components'], //公共组件自动引入
-      resolvers: [AntDesignVueResolver()] //省去UI库的大量import语句
+      resolvers: [
+        AntDesignVueResolver({
+          importStyle: 'less'
+        })
+      ] //省去UI库的大量import语句
     })
   ],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')
+    }
+  },
+  css: {
+    //定制主题
+    preprocessorOptions: {
+      less: {
+        modifyVars: {
+          'primary-color': 'green'
+        },
+        javascriptEnabled: true
+      }
     }
   }
 })

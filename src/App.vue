@@ -17,6 +17,7 @@ if (s == gg) {
 </script>
 
 <style lang="less">
+@import './assets/style/theme.less';
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

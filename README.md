@@ -84,3 +84,8 @@
      `npm i unplugin-auto-import -D`
    - 在 vite.config.js 中配置
      `AutoImport({ imports: ['vue', 'vue-router', 'pinia'], //因为自动导入，eslint会提示如ref等,no-undef,需要处理下错误提示 eslintrc: { enabled: false, // Default `false`, 生成配置文件之后，可以再改成false filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json` globalsPropValue: true // Default`true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable') } })`
+
+7. 样式处理
+
+   - 主题色 在 vite.config.js 中配置
+     `css: { //定制主题 preprocessorOptions: { less: { modifyVars: { 'primary-color': 'green' }, javascriptEnabled: true } } }`
