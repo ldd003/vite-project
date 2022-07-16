@@ -17,7 +17,9 @@ if (s == gg) {
 </script>
 
 <style lang="less">
-@import './assets/style/theme.less';
+//引入重置样式
+@import '@/assets/styles/reset.less';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

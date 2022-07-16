@@ -85,7 +85,14 @@
    - 在 vite.config.js 中配置
      `AutoImport({ imports: ['vue', 'vue-router', 'pinia'], //因为自动导入，eslint会提示如ref等,no-undef,需要处理下错误提示 eslintrc: { enabled: false, // Default `false`, 生成配置文件之后，可以再改成false filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json` globalsPropValue: true // Default`true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable') } })`
 
-7. 样式处理
+7. 样式，图标，字体
 
    - 主题色 在 vite.config.js 中配置
-     `css: { //定制主题 preprocessorOptions: { less: { modifyVars: { 'primary-color': 'green' }, javascriptEnabled: true } } }`
+     `css: { preprocessorOptions: { less: { //ant-vue-design内置样式变量 //https://github.com/vueComponent/ant-design-vue/blob/main/components/style/themes/default.less additionalData: `@import './src/assets/styles/variable.less';`, //引入全局变量 //修改主题色 modifyVars: { 'primary-color': 'purple' }, javascriptEnabled: true } } } })`
+
+   * 图标组件
+     `//引入ant-design-vue Icon import * as Icons from '@ant-design/icons-vue' for (const [k, component] of Object.entries(Icons)) { app.component(k, component) }`
+
+   * 自定义图标
+
+     `//引入自定义图标 import '@/assets/fonts/iconfont.css'`

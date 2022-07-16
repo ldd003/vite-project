@@ -38,11 +38,14 @@ export default defineConfig({
     }
   },
   css: {
-    //定制主题
     preprocessorOptions: {
       less: {
+        //ant-vue-design内置样式变量
+        //https://github.com/vueComponent/ant-design-vue/blob/main/components/style/themes/default.less
+        additionalData: `@import './src/assets/styles/variable.less';`, //引入全局变量
+        //修改主题色
         modifyVars: {
-          'primary-color': 'green'
+          'primary-color': 'purple'
         },
         javascriptEnabled: true
       }
