@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+const { resolve } = require('path')
 
 //自动引入插件
 import Components from 'unplugin-vue-components/vite'
@@ -8,7 +9,8 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 //自动导入插件
 import AutoImport from 'unplugin-auto-import/vite'
 
-const { resolve } = require('path')
+//项目配置
+import config from './src/service/config'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -18,7 +20,7 @@ export default defineConfig({
       imports: ['vue', 'vue-router', 'pinia'],
       //因为自动导入，eslint会提示如ref等,no-undef,需要处理下错误提示
       eslintrc: {
-        enabled: false, // Default `false`, 生成配置文件之后，可以再改成false
+        enabled: true, // Default `false`, 生成配置文件之后，可以再改成false
         filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
         globalsPropValue: true // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
       }
@@ -48,6 +50,15 @@ export default defineConfig({
           'primary-color': 'purple'
         },
         javascriptEnabled: true
+      }
+    }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: config.origin,
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '')
       }
     }
   }

@@ -96,3 +96,9 @@
    * 自定义图标
 
      `//引入自定义图标 import '@/assets/fonts/iconfont.css'`
+
+8. 接口处理
+
+- server 文件夹-》用 node 写几个接口 demo 备用。如果用到接口服务，需要先启动 server。即进入 server 文件夹，安装并启动它
+
+- service 文件夹-》封装 axios 和 api，环境配置
