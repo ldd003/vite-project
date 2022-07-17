@@ -9,7 +9,7 @@ export function api_login(p) {
   })
 }
 //列表
-export function api_list(p) {
+export function api_list(p = {}) {
   return fetch({
     url: '/list',
     method: 'get',
