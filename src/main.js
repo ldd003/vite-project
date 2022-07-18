@@ -18,4 +18,6 @@ for (const [k, component] of Object.entries(Icons)) {
 //引入自定义图标
 import '@/assets/fonts/iconfont.css'
 
+console.log(123, import.meta, import.meta.env)
+
 app.use(router).use(store).mount('#app')
