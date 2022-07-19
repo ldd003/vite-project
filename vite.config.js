@@ -78,6 +78,7 @@ export default defineConfig(({ command, mode }) => {
       }
     },
     build: {
+      minify: 'terser', //压缩方式
       rollupOptions: {
         output: {
           chunkFileNames: 'static/js/[name].[hash].js',
@@ -88,6 +89,13 @@ export default defineConfig(({ command, mode }) => {
           //     return id.toString().split('node_modules/')[1].split('/')[0].toString()
           //   }
           // }
+        }
+      },
+      //压缩方式为terser时生效
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
         }
       }
     }
