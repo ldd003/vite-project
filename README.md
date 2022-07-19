@@ -102,3 +102,5 @@
 - server 文件夹-》用 node 写几个接口 demo 备用。如果用到接口服务，需要先启动 server。即进入 server 文件夹，安装并启动它
 
 - service 文件夹-》封装 axios 和 api，环境配置
+
+9. 打包
