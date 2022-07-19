@@ -116,3 +116,8 @@
 
    * 去掉 console 和 debugger
      `//压缩方式为terser时生效 terserOptions: { compress: { drop_console: true, drop_debugger: true } }`
+
+10. 表格 demo
+
+- 安装 concurrently 工具执行，同时启动 server 和 vite，具体用的时候删掉
+- 后端代码（node）在 server

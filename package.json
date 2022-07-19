@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "vite",
+    "start": "concurrently \"npm run server --prefix server\" \"npm run dev\"",
     "test": "vite --mode test",
     "lint": "eslint --fix --ext .vue,.js,.jsx src",
     "prepare": "husky install"
@@ -23,6 +23,7 @@
   "devDependencies": {
     "@vitejs/plugin-legacy": "^1.8.2",
     "@vitejs/plugin-vue": "^2.3.3",
+    "concurrently": "^7.3.0",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
