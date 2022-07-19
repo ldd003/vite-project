@@ -9,8 +9,13 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 //自动导入插件
 import AutoImport from 'unplugin-auto-import/vite'
 
-//打包，浏览器支持
+//打包
+//-浏览器支持
 import legacy from '@vitejs/plugin-legacy'
+//-可视化分析
+import { visualizer } from 'rollup-plugin-visualizer'
+//-压缩
+import compression from 'vite-plugin-compression'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -18,9 +23,6 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [
       vue(),
-      legacy({
-        targets: ['defaults', 'not IE 11']
-      }),
       AutoImport({
         imports: ['vue', 'vue-router', 'pinia'],
         //因为自动导入，eslint会提示如ref等,no-undef,需要处理下错误提示
@@ -37,11 +39,16 @@ export default defineConfig(({ command, mode }) => {
             importStyle: 'less'
           })
         ] //省去UI库的大量import语句
+      }),
+      //打包相关
+      legacy({
+        targets: ['defaults', 'not IE 11']
+      }),
+      visualizer(),
+      compression({
+        threshold: 10240 //超过10kb压缩
       })
     ],
-    build: {
-      target: 'es2015' // 默认 "modules"
-    },
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src')
@@ -67,6 +74,20 @@ export default defineConfig(({ command, mode }) => {
           target: 'http://localhost:3003',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, '')
+        }
+      }
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'static/js/[name].[hash].js',
+          entryFileNames: 'static/js/[name].[hash].js',
+          assetFileNames: 'static/[ext]/[name].[hash].[ext]'
+          // manualChunks(id) {
+          //   if (id.includes('node_modules')) {
+          //     return id.toString().split('node_modules/')[1].split('/')[0].toString()
+          //   }
+          // }
         }
       }
     }

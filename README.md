@@ -99,8 +99,17 @@
 
 8. 接口处理
 
-- server 文件夹-》用 node 写几个接口 demo 备用。如果用到接口服务，需要先启动 server。即进入 server 文件夹，安装并启动它
+   - server 文件夹-》用 node 写几个接口 demo 备用。如果用到接口服务，需要先启动 server。即进入 server 文件夹，安装并启动它
 
-- service 文件夹-》封装 axios 和 api，环境配置
+   - service 文件夹-》封装 axios 和 api，环境配置
 
 9. 打包
+
+   - 兼容性
+     `npm i @vitejs/plugin-legacy@1.8.2 -D`
+   - 分析可视化
+     `npm i rollup-plugin-visualizer -D`，执行打包后会生成 stats.html 文件，打开查看
+   - 合并和分拆
+     `output: { chunkFileNames: 'static/js/[name].[hash].js', entryFileNames: 'static/js/[name].[hash].js', assetFileNames: 'static/[ext]/[name].[hash].[ext]', // manualChunks(id) { // if (id.includes('node_modules')) { // return id.toString().split('node_modules/')[1].split('/')[0].toString() // } // } }`
+   - gizp 压缩
+     `npm i vite-plugin-compression -D`
