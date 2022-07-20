@@ -1,99 +1,209 @@
 <template>
   <div class="test-api">
     <h1>Test api</h1>
-    <a-table
-      :columns="columns"
-      row-key="id"
-      :data-source="dataSource"
-      :pagination="pagination"
-      @change="handleTableChange"
-    >
-      <template #bodyCell="{ column, text }">
-        <template v-if="column.dataIndex === 'name'">{{ text.first }} {{ text.last }}</template>
-      </template>
-    </a-table>
+    <div class="search-form">
+      <a-form
+        ref="formRef"
+        name="advanced_search"
+        class="ant-advanced-search-form"
+        :model="formState"
+        @finish="handleSearch"
+      >
+        <a-row :gutter="24">
+          <template v-for="i in 4" :key="i">
+            <a-col v-show="expand || i <= 3" :span="8">
+              <template v-if="i === 1">
+                <a-form-item
+                  :name="`field-${i}`"
+                  :label="`field-${i}`"
+                  :rules="[{ required: true, message: '请输入关键字' }]"
+                >
+                  <a-input v-model:value="formState[`field-${i}`]" placeholder="placeholder"></a-input>
+                </a-form-item>
+              </template>
+              <template v-else>
+                <a-form-item :name="`field-${i}`" :label="`field-${i}`">
+                  <a-input v-model:value="formState[`field-${i}`]" placeholder="placeholder"></a-input>
+                </a-form-item>
+              </template>
+            </a-col>
+          </template>
+        </a-row>
+        <a-row>
+          <a-col :span="24" style="text-align: right">
+            <a-button type="primary" html-type="submit">查询</a-button>
+            <a-button style="margin: 0 8px" @click="handleReset">重置</a-button>
+            <a style="font-size: 12px" @click="expand = !expand">
+              <template v-if="expand">
+                <UpOutlined />
+              </template>
+              <template v-else>
+                <DownOutlined />
+              </template>
+              Collapse
+            </a>
+          </a-col>
+        </a-row>
+      </a-form>
+    </div>
+    <div class="search-list">
+      <a-table
+        row-key="id"
+        :columns="columns"
+        :data-source="dataSource"
+        :pagination="pageConfig"
+        :loading="loading"
+        @change="handleTableChange"
+        bordered
+      >
+        <template #bodyCell="{ column, text }">
+          <template v-if="column.dataIndex === 'name'">{{ text.first }} {{ text.last }}</template>
+        </template>
+      </a-table>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { api_list, api_get_posts } from '@/service/api'
-import { reactive } from 'vue'
 
-//表格数据
+const expand = ref(false)
+const formRef = ref()
+const formState = reactive({})
+
+//列表相关
 const columns = [
   {
     title: '帖子id',
     dataIndex: 'id',
-    width: '20%'
+    sorter: true,
+    width: '15%'
   },
   {
     title: '用户id',
     dataIndex: 'userId',
-    width: '20%'
+    width: '15%'
   },
   {
     title: '标题',
-    dataIndex: 'title'
+    dataIndex: 'title',
+    sorter: true,
+    ellipsis: true
   },
   {
     title: '内容',
-    dataIndex: 'body'
+    dataIndex: 'body',
+    ellipsis: true
   }
 ]
 const dataSource = ref([])
+const loading = ref(false)
 
 //前后端联调mock
 api_list({
   pageNum: 1,
-  pageSize: 5
+  pageSize: 15
 }).then(res => {
   let resData = res.data || []
   // dataSource.value = resData
-  console.log('api_list result', resData)
+  console.log('api_list resData', resData)
 })
-
-//列表相关
-//pageSize变化的回调
-const onShowSizeChange = (current, size) => {
-  pagination.current = 1
-  pagination.pageSize = size
-  console.log(123, pagination)
-  getList()
-}
-const onChange = page => {
-  pagination.current = page
-  console.log(456, pagination)
-  getList()
-}
-//分页、排序、筛选变化时触发
-const handleTableChange = () => {}
 
 //-参数
-const pagination = reactive({
+const pageConfig = reactive({
   total: 100,
   current: 1,
-  pageSize: 10,
-  onShowSizeChange,
-  onChange
+  pageSize: 5,
+  field: '',
+  order: ''
 })
 
+//-分页、排序、筛选变化时触发
+const handleTableChange = ({ current, pageSize }, filters, { field = '', order = '' }) => {
+  //分页
+  pageConfig.current = current
+  //pageSize变化后 current重置为第一页
+  if (pageConfig.pageSize !== pageSize) {
+    pageConfig.current = 1
+  }
+  pageConfig.pageSize = pageSize
+
+  //排序
+  pageConfig.field = field
+  pageConfig.order = order === 'ascend' ? 'asc' : order === 'descend' ? 'desc' : ''
+  getList()
+}
+
+// watch(
+//   () => pageConfig.pageSize,
+//   (n, o) => {
+//     pageConfig.current = 1
+//   }
+// )
+
+//-查询
+const handleSearch = values => {
+  console.log('form...', values, formState)
+  pageConfig.current = 1
+  getList()
+}
+//-重置
+const handleReset = () => {
+  formRef.value.resetFields()
+  pageConfig.current = 1
+  getList()
+}
+
 //-获取
-const getList = () =>
+const getList = () => {
+  loading.value = true
   api_get_posts({
-    _page: pagination.current,
-    _limit: pagination.pageSize
-  }).then(res => {
-    let resData = res.data || []
-    dataSource.value = resData
+    _page: pageConfig.current,
+    _limit: pageConfig.pageSize,
+    _sort: pageConfig.field,
+    _order: pageConfig.order,
+    q: formState['field-1'] || ''
   })
+    .then(res => {
+      loading.value = false
+      let resData = res.data || []
+      dataSource.value = resData
+    })
+    .catch(() => {
+      loading.value = false
+    })
+}
 getList()
 </script>
 
 <style lang="less" scoped>
 .test-api {
-  .ant-table-wrapper {
-    width: 90%;
+  .search-form,
+  .search-list {
+    width: 80%;
     margin: 0 auto;
   }
+  .search-form {
+    margin-bottom: 20px;
+  }
+}
+
+#components-form-demo-advanced-search .ant-form {
+  max-width: none;
+}
+#components-form-demo-advanced-search .search-result-list {
+  margin-top: 16px;
+  border: 1px dashed #e9e9e9;
+  border-radius: 2px;
+  background-color: #fafafa;
+  min-height: 200px;
+  text-align: center;
+  padding-top: 80px;
+}
+[data-theme='dark'] .ant-advanced-search-form {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #434343;
+  padding: 24px;
+  border-radius: 2px;
 }
 </style>
