@@ -2,8 +2,7 @@ import axios from 'axios'
 
 //axios实例
 const axiosInstance = axios.create({
-  // baseURL: config.origin
-  baseURL: '/api'
+  //baseURL: '/api'
 })
 
 /* axiosInstance.defaults.headers.common[
