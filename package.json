@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
     "start": "concurrently \"npm run server --prefix server\" \"npm run dev\"",
+    "build": "vite build",
+    "build:dev": "vite build --mode development",
+    "preview": "vite preview",
     "test": "vite --mode test",
     "lint": "eslint --fix --ext .vue,.js,.jsx src",
     "prepare": "husky install"

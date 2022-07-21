@@ -20,6 +20,8 @@ import compression from 'vite-plugin-compression'
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   console.log('vite.config.js中的环境变量', command, mode, loadEnv(mode, process.cwd()).VITE_MY_VAR)
+
+  const isProd = mode === 'production'
   return {
     plugins: [
       vue(),
@@ -45,9 +47,11 @@ export default defineConfig(({ command, mode }) => {
         targets: ['defaults', 'not IE 11']
       }),
       visualizer(),
-      compression({
-        threshold: 10240 //超过10kb压缩
-      })
+      isProd
+        ? compression({
+            threshold: 10240 //超过10kb压缩
+          })
+        : null
     ],
     resolve: {
       alias: {
@@ -78,25 +82,53 @@ export default defineConfig(({ command, mode }) => {
       }
     },
     build: {
+      manifest: isProd ? false : true,
+      sourcemap: isProd ? false : true,
       minify: 'terser', //压缩方式
       rollupOptions: {
+        // output: {
+        //   chunkFileNames: 'static/js/[name].[hash].js',
+        //   entryFileNames: 'static/js/[name].[hash].js',
+        //   assetFileNames: 'static/[ext]/[name].[hash].[ext]'
+        //   // manualChunks(id) {
+        //   //   if (id.includes('node_modules')) {
+        //   //     return id.toString().split('node_modules/')[1].split('/')[0].toString()
+        //   //   }
+        //   // }
+        // }
+
         output: {
-          chunkFileNames: 'static/js/[name].[hash].js',
-          entryFileNames: 'static/js/[name].[hash].js',
-          assetFileNames: 'static/[ext]/[name].[hash].[ext]'
-          // manualChunks(id) {
-          //   if (id.includes('node_modules')) {
-          //     return id.toString().split('node_modules/')[1].split('/')[0].toString()
-          //   }
-          // }
-        }
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              const arr = id.toString().split('node_modules/')[1].split('/')
+              console.log(7777, id, arr)
+              switch (arr[0]) {
+                case '@vue':
+                case 'axios':
+                case 'ant-design-vue':
+                  return '_' + arr[0]
+                default:
+                  return '__vendor'
+              }
+            }
+          },
+          chunkFileNames: 'static/js1/[name]-[hash].js',
+          entryFileNames: 'static/js2/[name]-[hash].js',
+          assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
+        },
+        brotliSize: false, // 不统计
+        target: 'esnext',
+        minify: 'esbuild' // 混淆器，terser构建后文件体积更小
       },
+
       //压缩方式为terser时生效
       terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true
-        }
+        compress: isProd
+          ? {
+              drop_console: true,
+              drop_debugger: true
+            }
+          : false
       }
     }
   }
