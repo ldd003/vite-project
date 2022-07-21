@@ -56,8 +56,10 @@
         @change="handleTableChange"
         bordered
       >
-        <template #bodyCell="{ column, text }">
-          <template v-if="column.dataIndex === 'name'">{{ text.first }} {{ text.last }}</template>
+        <template #bodyCell="{ index, column }">
+          <template v-if="index === 0 && column.key === 'operation'">
+            <a @click="handleAdd">假新增</a>
+          </template>
         </template>
       </a-table>
     </div>
@@ -65,7 +67,10 @@
 </template>
 
 <script setup>
-import { api_list, api_get_posts } from '@/service/api'
+import { api_list, api_get_posts, api_post_posts } from '@/service/api'
+
+import { message } from 'ant-design-vue'
+import 'ant-design-vue/es/message/style/css' //vite只能用 ant-design-vue/es 而非 ant-design-vue/lib
 
 const expand = ref(false)
 const formRef = ref()
@@ -74,15 +79,22 @@ const formState = reactive({})
 //列表相关
 const columns = [
   {
+    title: '序号',
+    dataIndex: 'index',
+    fixed: 'left',
+    customRender: ({ index }) => `第${index + 1}行`,
+    width: '80px'
+  },
+  {
     title: '帖子id',
     dataIndex: 'id',
     sorter: true,
-    width: '15%'
+    width: '10%'
   },
   {
     title: '用户id',
     dataIndex: 'userId',
-    width: '15%'
+    width: '10%'
   },
   {
     title: '标题',
@@ -94,6 +106,12 @@ const columns = [
     title: '内容',
     dataIndex: 'body',
     ellipsis: true
+  },
+  {
+    title: '操作',
+    key: 'operation',
+    fixed: 'right',
+    width: 100
   }
 ]
 const dataSource = ref([])
@@ -111,11 +129,13 @@ api_list({
 
 //-参数
 const pageConfig = reactive({
-  total: 100,
+  total: 0,
   current: 1,
   pageSize: 5,
   field: '',
-  order: ''
+  order: '',
+  showQuickJumper: true,
+  showTotal: total => `共${total}条`
 })
 
 //-分页、排序、筛选变化时触发
@@ -155,8 +175,26 @@ const handleReset = () => {
 }
 
 //-获取
-const getList = () => {
+const getListAll = () => {
+  return new Promise(resolve => {
+    api_get_posts({
+      _page: 1,
+      _limit: 101,
+      q: formState['field-1'] || ''
+    })
+      .then(res => {
+        let resData = res.data || []
+        resolve(resData.length)
+      })
+      .catch(() => {
+        resolve(0)
+      })
+  })
+}
+const getList = async () => {
   loading.value = true
+  let total = await getListAll()
+
   api_get_posts({
     _page: pageConfig.current,
     _limit: pageConfig.pageSize,
@@ -168,12 +206,25 @@ const getList = () => {
       loading.value = false
       let resData = res.data || []
       dataSource.value = resData
+      pageConfig.total = total
     })
     .catch(() => {
       loading.value = false
     })
 }
 getList()
+
+//编辑
+const handleAdd = () => {
+  api_post_posts({
+    title: 'foo',
+    body: 'bar',
+    userId: 1
+  }).then(res => {
+    let resStr = JSON.stringify(res.data)
+    message.info(resStr)
+  })
+}
 </script>
 
 <style lang="less" scoped>
