@@ -2,11 +2,11 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 const { resolve } = require('path')
 
-//自动引入插件
+//自动引入（组件）插件
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
-//自动导入插件
+//自动导入（方法等）插件
 import AutoImport from 'unplugin-auto-import/vite'
 
 //打包

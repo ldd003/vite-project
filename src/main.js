@@ -9,6 +9,11 @@ const app = createApp(App)
 // import Antd from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.css'
 
+//全局部分注册
+import { message } from 'ant-design-vue'
+app.config.globalProperties.$message = message
+import 'ant-design-vue/es/message/style/css'
+
 //引入ant-design-vue Icon
 import * as Icons from '@ant-design/icons-vue'
 for (const [k, component] of Object.entries(Icons)) {

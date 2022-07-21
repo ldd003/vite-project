@@ -69,8 +69,10 @@
 <script setup>
 import { api_list, api_get_posts, api_post_posts } from '@/service/api'
 
-import { message } from 'ant-design-vue'
-import 'ant-design-vue/es/message/style/css' //vite只能用 ant-design-vue/es 而非 ant-design-vue/lib
+// import { message } from 'ant-design-vue'
+// import 'ant-design-vue/es/message/style/css' //vite只能用 ant-design-vue/es 而非 ant-design-vue/lib
+
+const { proxy } = getCurrentInstance()
 
 const expand = ref(false)
 const formRef = ref()
@@ -222,7 +224,8 @@ const handleAdd = () => {
     userId: 1
   }).then(res => {
     let resStr = JSON.stringify(res.data)
-    message.info(resStr)
+
+    proxy.$message.success(`新建成功，${resStr}`)
   })
 }
 </script>
