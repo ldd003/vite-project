@@ -1,4 +1,4 @@
-1. 安装 vite, 选择 vue，名字为 vite-project
+1. 安装 vite，选择 vue，名字为 vite-project
    `npm create vite`
 
 2. 用 vuecli5 创建一个 vue3 项目，选 features 时选中 Router Vuex CSS Processors(less)
@@ -6,7 +6,7 @@
 
    - 把 vite-project 的 src 替换为 demovue3 的 src
 
-3. 安装 core-js（模块化标准库） vue-router（路由） pinia(vuex,新状态管理) less(样式预处理器)
+3. 安装 core-js（模块化标准库） ，vue-router（路由）， pinia(vuex,新状态管理) ，less(样式预处理器)
    `npm i core-js vue-router pinia`
    `npm i less -D`
 
@@ -17,7 +17,7 @@
      `history: createWebHistory("/")`
    * 引入 pinia,demo 参见 TestPinia
 
-4. 添加 eslint，prettier，husky，lint-staged 构建代码质检，格式统一，提交把控的工作流
+4. 添加 eslint，prettier，husky，lint-staged - 构建代码质检，格式统一，提交把控的工作流
 
    - 参考
      [vue3+ts+vite 项目中使用 eslint+prettier+husky 指南]('https://juejin.cn/post/7118294114734440455')
@@ -70,12 +70,15 @@
      - 安装自动引入插件 unplugin-vue-components
        `npm i unplugin-vue-components -D`
 
-       实现自动引入（组件）-> vite.config.js-》plugins--》Components
+       实现自动引入（组件）-》vite.config.js--》plugins--》Components
+
+   * 国际化
+     App.vue ->设置中文
 
 6. 引入 unplugin-auto-import
    `npm i unplugin-auto-import -D`
 
-   实现自动导入（方法等）-> vite.config.js-》plugins--》AutoImport
+   实现自动导入（方法等）-》vite.config.js--》plugins---》AutoImport
 
 7. 样式，图标，字体
 
@@ -96,16 +99,16 @@
    - 分析可视化
      `npm i rollup-plugin-visualizer -D`，执行打包后会生成 stats.html 文件，打开查看
    - 合并和分拆
-     `output: { chunkFileNames: 'static/js/[name].[hash].js', entryFileNames: 'static/js/[name].[hash].js', assetFileNames: 'static/[ext]/[name].[hash].[ext]', // manualChunks(id) { // if (id.includes('node_modules')) { // return id.toString().split('node_modules/')[1].split('/')[0].toString() // } // } }`
+     vite.config.js-》build--》rollupOptions---》output,manualChunks
    - gizp 压缩
      `npm i vite-plugin-compression -D`
 
    * 去掉 console 和 debugger
-     `//压缩方式为terser时生效 terserOptions: { compress: { drop_console: true, drop_debugger: true } }`
+     vite.config.js-》build--》terserOptions---》compress
 
 10. 表格 demo
 
-- 安装 concurrently 工具执行，同时启动 server 和 vite，具体用的时候删掉
-- 后端代码（node）在 server，只简单写了个 get demo
+    - 安装 concurrently 工具执行，同时启动 server 和 vite，具体用的时候删掉
+    - 后端代码（node）在 server，只简单写了个 get demo
 
-* 查询操作相关，用 jsonplaceholder
+    * 查询操作相关，用 https://jsonplaceholder.typicode.com/xx

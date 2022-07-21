@@ -13,12 +13,8 @@
           <template v-for="i in 4" :key="i">
             <a-col v-show="expand || i <= 3" :span="8">
               <template v-if="i === 1">
-                <a-form-item
-                  :name="`field-${i}`"
-                  :label="`field-${i}`"
-                  :rules="[{ required: true, message: '请输入关键字' }]"
-                >
-                  <a-input v-model:value="formState[`field-${i}`]" placeholder="placeholder"></a-input>
+                <a-form-item :name="`field-${i}`" label="关键字" :rules="[{ required: true, message: '请输入关键字' }]">
+                  <a-input v-model:value="formState[`field-${i}`]" placeholder="请输入"></a-input>
                 </a-form-item>
               </template>
               <template v-else>

@@ -4,14 +4,21 @@
     <router-link to="/TestAntDesignVue">TestAntDesignVue</router-link> |
     <router-link to="/TestApi">TestApi</router-link>
   </nav>
-  <router-view />
+  <a-config-provider :locale="locale">
+    <router-view />
+  </a-config-provider>
 </template>
 
 <script setup>
+//设置中文
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+dayjs.locale('zh-cn')
+const locale = ref(zhCN)
+
 let s = 'a'
-
 let gg = 'bfdg'
-
 if (s == gg) {
   console.log(78)
 }

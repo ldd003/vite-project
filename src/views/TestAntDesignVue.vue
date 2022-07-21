@@ -11,11 +11,15 @@
     <home-outlined />
     <br />
     <i class="iconfont icon-hua"></i>
+    <br />
+    <a-range-picker v-model:value="value1" />
   </div>
 </template>
 
 <script setup>
 import { Button } from 'ant-design-vue'
+
+const value1 = ref()
 </script>
 
 <style lang="less" scoped>
