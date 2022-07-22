@@ -36,7 +36,11 @@ export default defineConfig(({ command, mode }) => {
       }),
       Components({
         dirs: ['src/components'], //公共组件自动引入
-        resolvers: [AntDesignVueResolver()] //省去UI库的大量import语句
+        resolvers: [
+          AntDesignVueResolver({
+            importStyle: 'less'
+          })
+        ] //省去UI库的大量import语句
       }),
       //打包相关
       legacy({
