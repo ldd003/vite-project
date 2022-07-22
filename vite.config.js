@@ -36,11 +36,7 @@ export default defineConfig(({ command, mode }) => {
       }),
       Components({
         dirs: ['src/components'], //公共组件自动引入
-        resolvers: [
-          AntDesignVueResolver({
-            importStyle: 'less'
-          })
-        ] //省去UI库的大量import语句
+        resolvers: [AntDesignVueResolver()] //省去UI库的大量import语句
       }),
       //打包相关
       legacy({
@@ -85,36 +81,28 @@ export default defineConfig(({ command, mode }) => {
       manifest: isProd ? false : true,
       sourcemap: isProd ? false : true,
       minify: 'terser', //压缩方式
+      chunkSizeWarningLimit: 1024, //chunk 大小警告的限制 500(kb)->1024(kb)
       rollupOptions: {
-        // output: {
-        //   chunkFileNames: 'static/js/[name].[hash].js',
-        //   entryFileNames: 'static/js/[name].[hash].js',
-        //   assetFileNames: 'static/[ext]/[name].[hash].[ext]'
-        //   // manualChunks(id) {
-        //   //   if (id.includes('node_modules')) {
-        //   //     return id.toString().split('node_modules/')[1].split('/')[0].toString()
-        //   //   }
-        //   // }
-        // }
-
         output: {
+          chunkFileNames: 'static/js/[name].[hash].js',
+          entryFileNames: 'static/js/[name].[hash].js',
+          assetFileNames: 'static/[ext]/[name].[hash].[ext]',
           manualChunks(id) {
             if (id.includes('node_modules')) {
               const arr = id.toString().split('node_modules/')[1].split('/')
-              console.log(7777, id, arr)
               switch (arr[0]) {
                 case '@vue':
-                case 'axios':
+                case 'vue-router':
                 case 'ant-design-vue':
-                  return '_' + arr[0]
+                case '@ant-design':
+                case 'lodash-es':
+                case 'axios':
+                  return arr[0]
                 default:
-                  return '__vendor'
+                  return 'vendor'
               }
             }
-          },
-          chunkFileNames: 'static/js1/[name]-[hash].js',
-          entryFileNames: 'static/js2/[name]-[hash].js',
-          assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
+          }
         },
         brotliSize: false, // 不统计
         target: 'esnext',

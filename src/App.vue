@@ -16,12 +16,6 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 dayjs.locale('zh-cn')
 const locale = ref(zhCN)
-
-let s = 'a'
-let gg = 'bfdg'
-if (s == gg) {
-  console.log(78)
-}
 </script>
 
 <style lang="less">
