@@ -20,7 +20,9 @@ app.get('/list', (req, res) => {
 
   let listTable = mockData.randomuser.slice(start, end)
 
-  res.end(JSON.stringify(listTable))
+  setTimeout(() => {
+    res.end(JSON.stringify(listTable))
+  }, 3000)
 })
 
 app.post('/login', (req, res) => {

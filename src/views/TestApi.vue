@@ -1,6 +1,7 @@
 <template>
   <div class="test-api">
     <h1>Test api</h1>
+    <a-button @click="getLocalList" style="margin-bottom: 20px">获取本地接口list，测试取消请求</a-button>
     <div class="search-form">
       <a-form
         ref="formRef"
@@ -115,15 +116,21 @@ const columns = [
 const dataSource = ref([])
 const loading = ref(false)
 
-//前后端联调mock
-api_list({
-  pageNum: 1,
-  pageSize: 15
-}).then(res => {
-  let resData = res.data || []
-  // dataSource.value = resData
-  console.log('api_list resData', resData)
-})
+const getLocalList = () => {
+  //前后端联调mock
+  api_list({
+    pageNum: 1,
+    pageSize: 15
+  })
+    .then(res => {
+      let resData = res.data || []
+      // dataSource.value = resData
+      console.log('api_list resData', resData)
+    })
+    .catch(err => {
+      console.log('api_list err', err)
+    })
+}
 
 //-参数
 const pageConfig = reactive({
